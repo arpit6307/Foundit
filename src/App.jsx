@@ -6,7 +6,8 @@ import {
   QrCode, ShieldCheck, Zap, Globe, Lock, Activity, Menu, X,
   Layers, Fingerprint, ArrowRight, Cpu, Scan, Search, 
   Bell, Database, ShieldAlert, Smartphone, EyeOff, Radio,
-  Server, MessageSquare, MapPin, Share2, Award
+  Server, MessageSquare, MapPin, Share2, Award, Download, 
+  Target, ZapOff, Users, Coins
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from './context/AuthContext'; 
@@ -22,10 +23,10 @@ import Showcase from './pages/Showcase';
 import Profile from './pages/Profile';
 import MyTags from './pages/MyTags';
 import Notifications from './pages/Notifications';
-import ReferEarn from './pages/ReferEarn'; // ✅ Naya Refer & Earn Page Import
-import ReferralTransactions from './pages/Admin/ReferralTransactions'; // ✅ Admin Referral Terminal Import
+import ReferEarn from './pages/ReferEarn';
+import ReferralTransactions from './pages/Admin/ReferralTransactions';
 
-// ✅ Naya Admin Dashboard Import
+// Admin Dashboard Import
 import AdminDashboard from './pages/Admin/AdminDashboard'; 
 
 // Components & Layout Import
@@ -43,13 +44,13 @@ const ScrollToTop = () => {
   return null;
 };
 
-// ✅ NEW: Global Referral Code Tracker (Vercel & 6-Char Friendly)
+// ✅ Global Referral Code Tracker
 const ReferralTracker = () => {
   const location = useLocation();
   useEffect(() => {
     try {
       const params = new URLSearchParams(location.search);
-      const referralCode = params.get('ref'); // Ab yeh 6 letters ka code capture karega
+      const referralCode = params.get('ref'); 
       if (referralCode) {
         localStorage.setItem('pendingReferralCode', referralCode);
         console.log("SECURE PROTOCOL: Referral Code locked in vault.");
@@ -76,14 +77,12 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// --- Landing Page ---
+// --- Landing Page (Updated with Deep Details & APK Support) ---
 const LandingPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
   
-  // Note: Local tracking logic moved to ReferralTracker to ensure it works across all routes
-
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.8, 0.25, 1] } }
@@ -111,7 +110,8 @@ const LandingPage = () => {
           <Navbar.Collapse id="premium-nav" className="d-none d-lg-block">
             <Nav className="ms-auto align-items-center gap-lg-4">
               <Nav.Link onClick={() => navigate('/showcase')} className="subtext-tracking text-white hover-gold transition-smooth" style={{ fontSize: '0.75rem' }}>LIVE FEED</Nav.Link>
-              <Nav.Link href="#how-it-works" className="subtext-tracking text-white hover-gold transition-smooth" style={{ fontSize: '0.75rem' }}>PROTOCOL</Nav.Link>
+              <Nav.Link href="#features" className="subtext-tracking text-white hover-gold transition-smooth" style={{ fontSize: '0.75rem' }}>ECOSYSTEM</Nav.Link>
+              <Nav.Link href="#referral" className="subtext-tracking text-white hover-gold transition-smooth" style={{ fontSize: '0.75rem' }}>EARN REWARDS</Nav.Link>
               {user ? (
                 <button className="btn-gold-solid ms-lg-3 py-2 px-4 d-flex align-items-center gap-2" style={{ fontSize: '0.75rem' }} onClick={() => navigate('/dashboard')}>
                   COMMAND CENTER <ArrowRight size={14} />
@@ -153,6 +153,7 @@ const LandingPage = () => {
         )}
       </AnimatePresence>
 
+      {/* Hero Section */}
       <div className="hero-section position-relative py-5 py-lg-0 d-flex align-items-center" style={{ minHeight: '90vh' }}>
         <Container>
           <Row className="align-items-center">
@@ -161,23 +162,29 @@ const LandingPage = () => {
                 <motion.div variants={fadeInUp} className="mb-4">
                   <span className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded" style={{ border: '1px solid var(--border-white-thin)', background: 'rgba(212, 175, 55, 0.05)' }}>
                     <ShieldCheck size={14} color="var(--gold-solid)" />
-                    <span className="subtext-tracking" style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>NEXT-GEN ASSET PROTECTION</span>
+                    <span className="subtext-tracking" style={{ color: 'var(--text-muted)', fontSize: '0.65rem' }}>MILITARY-GRADE ASSET PROTECTION</span>
                   </span>
                 </motion.div>
                 <motion.h1 variants={fadeInUp} className="heading-tracking text-white mb-4" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 200, lineHeight: '1.1' }}>
-                  PROTECT WHAT <br className="d-none d-lg-block" />
-                  <span className="text-luxury-gold" style={{ fontWeight: 800 }}>MATTERS MOST.</span>
+                  LOST IT? <br className="d-none d-lg-block" />
+                  <span className="text-luxury-gold" style={{ fontWeight: 800 }}>FOUND IT.</span>
                 </motion.h1>
                 <motion.p variants={fadeInUp} className="subtext-tracking text-muted mb-5" style={{ maxWidth: '600px', lineHeight: '1.8', textTransform: 'none', fontSize: '0.9rem' }}>
-                  FoundIt bridges the gap between lost and found using military-grade encrypted QR technology. Secure your valuables with a digital identity that keeps you anonymous but reachable.
+                  Secure your physical valuables with an encrypted digital identity. Our platform ensures that your personal data remains locked in the vault while keeping you reachable for recovery.
                 </motion.p>
                 <motion.div variants={fadeInUp} className="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
                   <button className="btn-gold-solid px-5 py-3 d-flex align-items-center justify-content-center gap-2" onClick={() => navigate('/dashboard')}>
                     LAUNCH VAULT <ArrowRight size={16} />
                   </button>
-                  <button className="btn-dark-outline px-5 py-3 d-flex align-items-center justify-content-center" onClick={() => navigate('/showcase')}>
-                    VIEW LIVE FEED
-                  </button>
+                  {/* ✅ APK Download Button */}
+                  <a 
+                    href="/apk/foundit.apk" 
+                    download="FoundIt_v1.apk"
+                    className="btn-dark-outline px-5 py-3 d-flex align-items-center justify-content-center gap-2"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Smartphone size={18} color="var(--gold-solid)" /> DOWNLOAD APP
+                  </a>
                 </motion.div>
               </motion.div>
             </Col>
@@ -190,7 +197,7 @@ const LandingPage = () => {
                   </div>
                   <div className="p-4 d-flex flex-column align-items-center justify-content-center rounded mb-4" style={{ background: '#000', border: '1px solid var(--border-white-thin)' }}>
                     <QrCode size={180} color="var(--gold-solid)" strokeWidth={1} />
-                    <p className="heading-tracking mt-4 mb-0" style={{ color: 'var(--gold-solid)', fontSize: '0.8rem' }}>VAULT ID: FD-ACTIVE</p>
+                    <p className="heading-tracking mt-4 mb-0" style={{ color: 'var(--gold-solid)', fontSize: '0.8rem' }}>ENCRYPTED VAULT ID</p>
                   </div>
                   <div className="d-flex align-items-center gap-3 pt-2">
                      <div className="p-2 rounded" style={{ background: 'rgba(212, 175, 55, 0.1)', border: '1px solid var(--gold-solid)' }}>
@@ -198,7 +205,7 @@ const LandingPage = () => {
                      </div>
                      <div>
                        <div className="heading-tracking text-white mb-1" style={{ fontSize: '0.75rem' }}>OWNERSHIP LINK</div>
-                       <div className="subtext-tracking" style={{ color: '#10b981', fontSize: '0.65rem' }}>ENCRYPTED & ANONYMOUS</div>
+                       <div className="subtext-tracking" style={{ color: '#10b981', fontSize: '0.65rem' }}>IDENTITY PROTECTED</div>
                      </div>
                   </div>
                 </div>
@@ -208,21 +215,52 @@ const LandingPage = () => {
         </Container>
       </div>
 
+      {/* ✅ NEW: Features & Detailed Module Info */}
       <section id="features" className="py-5" style={{ background: '#020202', borderTop: '1px solid var(--border-white-thin)' }}>
         <Container className="py-5">
           <div className="text-center mb-5 pb-4">
-            <h6 className="subtext-tracking mb-3 text-luxury-gold">THE ECOSYSTEM</h6>
-            <h2 className="heading-tracking text-white mb-4" style={{ fontSize: '2.5rem' }}>INTEGRATED <span style={{ fontWeight: 800 }}>TECH STACK</span></h2>
-            <p className="subtext-tracking text-muted mx-auto" style={{ maxWidth: '700px', textTransform: 'none' }}>Our platform combines cloud security with physical identification to provide a seamless recovery experience.</p>
+            <h6 className="subtext-tracking mb-3 text-luxury-gold">THE CORE ENGINE</h6>
+            <h2 className="heading-tracking text-white mb-4" style={{ fontSize: '2.5rem' }}>ADVANCED <span style={{ fontWeight: 800 }}>MODULES</span></h2>
+            <p className="subtext-tracking text-muted mx-auto" style={{ maxWidth: '700px', textTransform: 'none' }}>FoundIt runs on a multi-layered security protocol designed for seamless recovery.</p>
           </div>
           <Row className="g-4">
             {[
-              { icon: <Scan />, title: "MINTING ENGINE", detail: "Generate unique encrypted QR codes for any asset. Customize themes, colors, and logos while maintaining high scannability.", path: "/generate-qr" },
-              { icon: <Activity />, title: "RADAR TRACKING", detail: "View a real-time 'Active Radar' of all your reported items. Get instant visual confirmation when an asset is spotted.", path: "/dashboard" },
-              { icon: <Radio />, title: "SIGNAL BROADCAST", detail: "When someone finds your item, they send a 'Signal'. You receive their contact info, location, and a visual proof securely.", path: "/notifications" },
-              { icon: <Smartphone />, title: "SMART SCANNER", detail: "Our built-in optical scanner recognizes Vault IDs instantly from URLs, manual entry, or gallery uploads.", path: "/found-report/manual" },
-              { icon: <ShieldCheck />, title: "AUTO-RECOVERY", detail: "Once you contact the finder, the system automatically marks your item as 'Recovered' across the entire network.", path: "/dashboard" },
-              { icon: <Globe />, title: "GLOBAL INTEL", detail: "A public feed where lost items are showcased to increase the chances of community-driven recovery.", path: "/showcase" }
+              { 
+                icon: <Scan />, 
+                title: "ENCRYPTED MINTING", 
+                detail: "Apne physical items ke liye unique QR Codes 'Mint' karein. Har code ek encrypted bridge hai jo owner aur finder ko bina privacy leak kiye connect karta hai.", 
+                path: "/generate-qr" 
+              },
+              { 
+                icon: <Activity />, 
+                title: "RADAR TRACKING", 
+                detail: "Dashboard par 'Active Radar' feature se aap apne reported items ka status real-time monitor kar sakte hain. Jab bhi koi scan hoga, aapko instant alert milega.", 
+                path: "/dashboard" 
+              },
+              { 
+                icon: <Radio />, 
+                title: "SIGNAL HANDSHAKE", 
+                detail: "Jab finder aapka item scan karta hai, vo ek 'Signal' bhejta hai. Aap secure tarike se finder ke saath handover coordinate kar sakte hain.", 
+                path: "/notifications" 
+              },
+              { 
+                icon: <Globe />, 
+                title: "GLOBAL INTEL FEED", 
+                detail: "Showcase module mein lost items ki details public hoti hain (bina identity disclose kiye) taaki community-driven recovery fast ho sake.", 
+                path: "/showcase" 
+              },
+              { 
+                icon: <ShieldAlert />, 
+                title: "BREACH PROTOCOL", 
+                detail: "Agar item lost ho jaye, toh Report module se breach alert activate karein. Isse recovery network automatic alert ho jayega.", 
+                path: "/report-lost" 
+              },
+              { 
+                icon: <Server />, 
+                title: "COMMAND CENTER", 
+                detail: "Ek centralized Dashboard jahan se aap apne saare tags, personal info, aur coins ko high-security environment mein manage kar sakte hain.", 
+                path: "/dashboard" 
+              }
             ].map((f, i) => (
               <Col lg={4} md={6} key={i}>
                 <motion.div whileHover={{ y: -10 }} className="card-premium-dark h-100 p-4 border-white-thin">
@@ -232,7 +270,7 @@ const LandingPage = () => {
                   <h4 className="heading-tracking text-white mb-3" style={{ fontSize: '1rem' }}>{f.title}</h4>
                   <p className="subtext-tracking text-muted mb-4" style={{ textTransform: 'none', lineHeight: '1.6', fontSize: '0.8rem' }}>{f.detail}</p>
                   <button onClick={() => navigate(f.path)} className="btn p-0 text-luxury-gold subtext-tracking d-flex align-items-center gap-2" style={{ fontSize: '0.7rem' }}>
-                    ACCESS MODULE <ArrowRight size={14} />
+                    EXPLORE MODULE <ArrowRight size={14} />
                   </button>
                 </motion.div>
               </Col>
@@ -241,65 +279,43 @@ const LandingPage = () => {
         </Container>
       </section>
 
-      <section id="how-it-works" className="py-5" style={{ background: '#050505' }}>
+      {/* ✅ NEW: Referral & Earn System Section */}
+      <section id="referral" className="py-5" style={{ background: '#050505', borderTop: '1px solid var(--border-white-thin)' }}>
         <Container className="py-5">
           <Row className="align-items-center">
             <Col lg={6} className="mb-5 mb-lg-0">
-              <h6 className="subtext-tracking text-luxury-gold mb-3">THE PROTOCOL</h6>
-              <h2 className="heading-tracking text-white mb-5" style={{ fontSize: '2.5rem' }}>HOW RECOVERY <br/><span style={{ fontWeight: 800 }}>ACTUALLY WORKS</span></h2>
-              <div className="protocol-steps">
-                {[
-                  { step: "01", title: "Generate Identity", desc: "Create a Secure Tag in your Command Center and attach it to your valuable asset." },
-                  { step: "02", title: "Report Breach", desc: "If an item is lost, mark it as 'Lost' in the system to activate the recovery radar." },
-                  { step: "03", title: "Signal Received", desc: "A finder scans the tag and sends a signal. You get notified instantly with proof of find." },
-                  { step: "04", title: "Secure Handover", desc: "Use the built-in communication bridge to talk to the finder and get your asset back." }
-                ].map((s, i) => (
-                  <div className="d-flex gap-4 mb-4 pb-4 border-bottom border-white-thin" key={i}>
-                    <span className="heading-tracking text-luxury-gold" style={{ fontSize: '1.5rem', opacity: 0.5 }}>{s.step}</span>
-                    <div>
-                      <h5 className="heading-tracking text-white mb-2" style={{ fontSize: '1rem' }}>{s.title}</h5>
-                      <p className="subtext-tracking text-muted m-0" style={{ textTransform: 'none', fontSize: '0.85rem' }}>{s.desc}</p>
+               <div className="p-3 d-inline-flex rounded mb-4" style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid #10b981' }}>
+                 <Coins size={24} className="text-success" />
+               </div>
+               <h2 className="heading-tracking text-white mb-4" style={{ fontSize: '2.5rem' }}>EXPAND THE <br/><span className="text-luxury-gold" style={{ fontWeight: 800 }}>SECURITY NETWORK</span></h2>
+               <p className="subtext-tracking text-muted mb-5" style={{ textTransform: 'none' }}>
+                 FoundIt ko apne doston ke saath share karein aur har successful signup par **100 Cyber Coins (CC)** earn karein. In coins ko aap real cash mein withdraw kar sakte hain.
+               </p>
+               <div className="d-flex flex-column gap-3">
+                  {[
+                    { title: "Share Code", desc: "Apna unique 6-digit referral code doston ko bhein.", icon: <Share2 /> },
+                    { title: "Earn CC", desc: "Har naye operative ke join hone par 100 CC aapke vault mein.", icon: <Award /> },
+                    { title: "Instant Payout", desc: "Coins ko UPI ke zariye seedha bank account mein withdraw karein.", icon: <Zap /> }
+                  ].map((item, index) => (
+                    <div className="d-flex align-items-center gap-3" key={index}>
+                       <div className="text-luxury-gold">{item.icon}</div>
+                       <div>
+                         <h6 className="m-0 text-white heading-tracking" style={{ fontSize: '0.8rem' }}>{item.title}</h6>
+                         <p className="m-0 text-muted extra-small">{item.desc}</p>
+                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+               </div>
             </Col>
             <Col lg={6} className="ps-lg-5">
-               <div className="card-premium-dark p-5 text-center position-relative overflow-hidden">
-                  <div className="position-absolute top-0 start-0 w-100 h-100 opacity-10" style={{ background: 'repeating-linear-gradient(45deg, var(--gold-solid), transparent 100px)' }}></div>
-                  <Cpu size={80} color="var(--gold-solid)" className="mb-4 mx-auto animate-pulse" />
-                  <h3 className="heading-tracking text-white mb-4">NEURAL RECOVERY NETWORK</h3>
-                  <p className="subtext-tracking text-muted mb-5" style={{ textTransform: 'none' }}>Our infrastructure ensures that your data is never exposed. The finder only sees a 'Report Found' interface—your phone number and email stay locked in the vault.</p>
-                  <button className="btn-gold-solid w-100 py-3" onClick={() => navigate('/auth')}>INITIALIZE SECURITY PROTOCOL</button>
+               <div className="card-premium-dark p-5 text-center border-gold-glow">
+                  <h3 className="heading-tracking text-white mb-4">REWARD PROTOCOL</h3>
+                  <div className="p-4 bg-black rounded border-dashed mb-4">
+                    <h1 className="text-luxury-gold heading-tracking m-0" style={{ fontSize: '3rem' }}>100 <small style={{fontSize: '1rem'}}>CC</small></h1>
+                    <p className="text-muted small mt-2">PER SUCCESSFUL REFERRAL</p>
+                  </div>
+                  <button className="btn-gold-solid w-100 py-3" onClick={() => navigate('/refer-earn')}>START EARNING NOW</button>
                </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <section className="py-5" style={{ background: '#020202', borderTop: '1px solid var(--border-white-thin)' }}>
-        <Container className="py-5">
-          <Row className="g-5">
-            <Col lg={4}>
-               <div className="d-flex align-items-center gap-3 mb-4">
-                  <Lock size={30} color="var(--gold-solid)" />
-                  <h4 className="heading-tracking m-0">PRIVACY FIRST</h4>
-               </div>
-               <p className="subtext-tracking text-muted" style={{ textTransform: 'none' }}>We don't sell data. We don't track your location. We only facilitate the connection between an owner and a finder.</p>
-            </Col>
-            <Col lg={4}>
-               <div className="d-flex align-items-center gap-3 mb-4">
-                  <EyeOff size={30} color="var(--gold-solid)" />
-                  <h4 className="heading-tracking m-0">STEALTH MODE</h4>
-               </div>
-               <p className="subtext-tracking text-muted" style={{ textTransform: 'none' }}>Public viewers can see lost items but never the identity of the owner until a secure handshake is performed.</p>
-            </Col>
-            <Col lg={4}>
-               <div className="d-flex align-items-center gap-3 mb-4">
-                  <Database size={30} color="var(--gold-solid)" />
-                  <h4 className="heading-tracking m-0">CLOUD VAULT</h4>
-               </div>
-               <p className="subtext-tracking text-muted" style={{ textTransform: 'none' }}>All asset information is stored in high-encryption cloud buckets, accessible only via your unique UID.</p>
             </Col>
           </Row>
         </Container>
@@ -327,7 +343,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<div className="dashboard-root"><Auth /><Footer /></div>} />
             
-            {/* ✅ FIXED ADMIN ROUTE - Outside SidebarLayout */}
+            {/* ADMIN ROUTE */}
             <Route path="/admin-vault-access-main" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
 
             {/* Main Application Routes with Sidebar */}
@@ -339,8 +355,8 @@ const App = () => {
               <Route path="/my-tags" element={<MyTags />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/notifications" element={<Notifications />} />
-              <Route path="/refer-earn" element={<ReferEarn />} /> {/* ✅ Naya Refer & Earn Route */}
-              <Route path="/admin/referral-terminal" element={<ReferralTransactions />} /> {/* ✅ Naya Admin Referral Terminal Route */}
+              <Route path="/refer-earn" element={<ReferEarn />} /> 
+              <Route path="/admin/referral-terminal" element={<ReferralTransactions />} />
               <Route path="/found-report/:qrId" element={<FoundReport />} />
             </Route>
 
