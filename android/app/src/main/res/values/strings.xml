@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">foundit</string>
+    <string name="title_activity_main">foundit</string>
+    <string name="package_name">com.arpit.foundit.app</string>
+    <string name="custom_url_scheme">com.arpit.foundit.app</string>
+</resources>

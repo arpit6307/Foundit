@@ -1,0 +1,141 @@
+/* src/index.css - Dark Premium Royal Theme */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  /* Ultra Dark Luxury Palette */
+  --bg-deep: #050505; /* Almost pure black for depth */
+  --bg-card: rgba(15, 15, 15, 0.85); /* Dark frosted glass */
+  
+  /* True Metallic Gold */
+  --gold-metallic: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+  --gold-solid: #D4AF37;
+  --gold-glow-subtle: rgba(212, 175, 55, 0.1);
+  --gold-glow-active: rgba(212, 175, 55, 0.25);
+  
+  /* Text & Accents */
+  --text-pure: #ffffff;
+  --text-muted: #888888;
+  --border-gold-thin: rgba(212, 175, 55, 0.15);
+  --border-white-thin: rgba(255, 255, 255, 0.05);
+  
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-pure);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Subtle Background Texture (No distracting meshes) --- */
+.dashboard-root {
+  background: var(--bg-deep);
+  min-height: 100vh;
+  position: relative;
+  z-index: 0;
+}
+
+.dashboard-root::after {
+  content: "";
+  position: absolute; top: -20%; left: -10%; width: 50%; height: 50%;
+  background: radial-gradient(circle, var(--gold-glow-subtle) 0%, transparent 70%);
+  filter: blur(80px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --- Dark Premium Cards --- */
+.card-premium-dark {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-white-thin);
+  border-radius: 16px; /* Sleeker, less rounded corners */
+  transition: var(--transition-smooth);
+  overflow: hidden;
+  position: relative;
+}
+
+.card-premium-dark:hover {
+  border-color: var(--border-gold-thin);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--gold-glow-subtle);
+  transform: translateY(-4px);
+}
+
+/* --- Typography for Luxury --- */
+.text-luxury-gold {
+  background: var(--gold-metallic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.heading-tracking {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.subtext-tracking {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* --- Premium Minimalist Buttons --- */
+.btn-gold-solid {
+  background: var(--gold-metallic) !important;
+  color: #000 !important; /* High contrast against gold */
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: none !important;
+  border-radius: 6px; /* Sharp and modern */
+  padding: 12px 24px;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.btn-gold-solid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+.btn-dark-outline {
+  background: transparent !important;
+  border: 1px solid var(--border-white-thin) !important;
+  color: var(--text-pure) !important;
+  border-radius: 6px;
+  padding: 12px 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.btn-dark-outline:hover {
+  border-color: var(--gold-solid) !important;
+  color: var(--gold-solid) !important;
+  background: var(--gold-glow-subtle) !important;
+}
+
+/* --- Utilities --- */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold-thin), transparent);
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--gold-solid);
+  border-radius: 4px;
+}
